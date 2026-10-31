@@ -1,0 +1,272 @@
+/* RONIE ARNOLD — PORTFOLIO STYLES */
+
+:root {
+  --black: #101010;
+  --charcoal: #222222;
+  --amber: #D9A45B;
+  --ivory: #F0EFEA;
+  --muted: #aaa69f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--ivory);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.brand {
+  color: var(--ivory);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.accent {
+  color: var(--amber);
+}
+
+header {
+  width: 100%;
+  padding: 22px 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid #ffffff12;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+nav a {
+  color: var(--muted);
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--amber);
+}
+
+.hero {
+  min-height: 80vh;
+  padding: 90px 7%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(90deg, #101010 45%, #101010cc);
+}
+
+.hero h1 {
+  max-width: 850px;
+  font-size: clamp(42px, 7vw, 82px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 18px 0;
+}
+
+.hero p {
+  max-width: 600px;
+  color: var(--muted);
+}
+
+.eyebrow,
+.section-label {
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.button {
+  display: inline-block;
+  width: fit-content;
+  margin-top: 28px;
+  padding: 13px 25px;
+  background: var(--amber);
+  color: var(--black);
+  font-weight: 700;
+  border: 1px solid var(--amber);
+  transition: 0.2s ease;
+}
+
+.button:hover {
+  background: transparent;
+  color: var(--amber);
+}
+
+section {
+  padding: 85px 7%;
+}
+
+section h2 {
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.2;
+  margin: 15px 0 25px;
+}
+
+.intro {
+  max-width: 750px;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 55px;
+}
+
+.about img {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 35px;
+}
+
+.services > * {
+  background: var(--charcoal);
+  padding: 25px;
+  border: 1px solid #ffffff12;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-top: 35px;
+}
+
+.work {
+  background: var(--charcoal);
+  overflow: hidden;
+  border: 1px solid #ffffff12;
+}
+
+.work img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.work:hover img {
+  transform: scale(1.03);
+}
+
+.work h3,
+.work p {
+  padding: 0 20px;
+}
+
+.work h3 {
+  padding-top: 18px;
+}
+
+.work p {
+  padding-bottom: 20px;
+  color: var(--muted);
+}
+
+#contact {
+  background: var(--charcoal);
+}
+
+footer {
+  padding: 30px 7%;
+  color: var(--muted);
+  border-top: 1px solid #ffffff12;
+  font-size: 13px;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+}
+
+dialog {
+  background: var(--charcoal);
+  color: var(--ivory);
+  border: 1px solid #ffffff22;
+  padding: 30px;
+  max-width: 700px;
+  width: 90%;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background: #000000cc;
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 6%;
+  }
+
+  nav {
+    gap: 15px;
+  }
+
+  nav a {
+    font-size: 13px;
+  }
+
+  .hero {
+    min-height: 70vh;
+    padding: 65px 6%;
+  }
+
+  .hero h1 {
+    font-size: 43px;
+    letter-spacing: -1px;
+  }
+
+  section {
+    padding: 60px 6%;
+  }
+
+  .about,
+  .work-grid,
+  .services {
+    grid-template-columns: 1fr;
+  }
+
+  .about {
+    gap: 30px;
+  }
+}
