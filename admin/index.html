@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#101010">
+  <title>Portfolio Admin | Ronie Arnold</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background: #101010;
+    }
+
+    .admin-wrap {
+      width: min(900px, 92%);
+      margin: 55px auto;
+    }
+
+    .admin-panel {
+      background: #222;
+      border: 1px solid #ffffff20;
+      padding: 28px;
+      margin: 25px 0;
+    }
+
+    .admin-panel h2 {
+      margin-bottom: 18px;
+    }
+
+    .admin-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .admin-form input,
+    .admin-form textarea,
+    .admin-form select {
+      width: 100%;
+      padding: 13px;
+      color: #f0efea;
+      background: #101010;
+      border: 1px solid #ffffff30;
+      font: inherit;
+    }
+
+    .admin-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .admin-form label {
+      color: #d9a45b;
+      font-size: 14px;
+    }
+
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .admin-actions button,
+    .admin-form button {
+      padding: 12px 20px;
+      border: 1px solid #d9a45b;
+      background: #d9a45b;
+      color: #101010;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: transparent;
+      color: #d9a45b;
+    }
+
+    .admin-status {
+      color: #d9a45b;
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .project-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .project-row {
+      padding: 16px;
+      background: #101010;
+      border: 1px solid #ffffff20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .project-row p {
+      color: #aaa69f;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .admin-panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="admin-wrap">
+    <p class="eyebrow">RONIE ARNOLD · PORTFOLIO</p>
+    <h1>Portfolio Admin</h1>
+    <p class="intro">Manage your published work and portfolio content.</p>
+
+    <section id="login-section" class="admin-panel">
+      <h2>Owner sign in</h2>
+
+      <form id="login-form" class="admin-form">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="username" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password"
+          autocomplete="current-password" required>
+
+        <button type="submit">Sign in</button>
+      </form>
+
+      <p id="login-status" class="admin-status" aria-live="polite"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="admin-actions">
+        <button id="new-project-btn" type="button">Add a project</button>
+        <button id="logout-btn" class="secondary" type="button">Sign out</button>
+      </div>
+
+      <section id="project-form-section" class="admin-panel hidden">
+        <h2 id="form-heading">Add project</h2>
+
+        <form id="project-form" class="admin-form">
+          <input id="project-id" type="hidden">
+
+          <label for="project-title">Project title</label>
+          <input id="project-title" type="text" required>
+
+          <label for="project-category">Category</label>
+          <select id="project-category" required>
+            <option value="">Choose a category</option>
+            <option>Photography</option>
+            <option>Videography</option>
+            <option>Graphic Design</option>
+            <option>Editorial</option>
+            <option>Interviews</option>
+            <option>Public Health Communication</option>
+            <option>Other</option>
+          </select>
+
+          <label for="project-description">Description</label>
+          <textarea id="project-description"></textarea>
+
+          <label for="project-cover">Cover image</label>
+          <input id="project-cover" type="file"
+            accept="image/*">
+
+          <label for="project-media">Additional photos or videos</label>
+          <input id="project-media" type="file"
+            accept="image/*,video/*" multiple>
+
+          <label>
+            <input id="project-published" type="checkbox">
+            Publish this project
+          </label>
+
+          <div class="admin-actions">
+            <button type="submit">Save project</button>
+            <button id="cancel-project-btn"
+              class="secondary" type="button">Cancel</button>
+          </div>
+        </form>
+
+        <p id="project-status" class="admin-status"
+          aria-live="polite"></p>
+      </section>
+
+      <section class="admin-panel">
+        <h2>Your projects</h2>
+        <div id="admin-project-list" class="project-list"></div>
+        <p id="list-status" class="admin-status"
+          aria-live="polite"></p>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
