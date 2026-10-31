@@ -1,18 +1,16 @@
+
 // RONIE ARNOLD — PUBLIC PORTFOLIO
 
 document.addEventListener("DOMContentLoaded", () => {
   const BUCKET = "portfolio-media";
 
-  const client = window.supabase.createClient(
-    window.SUPABASE_URL,
-    window.SUPABASE_ANON_KEY
-  );
-
   const $ = (selector) => document.querySelector(selector);
 
   // FOOTER YEAR
   const year = $("#year");
-  if (year) year.textContent = new Date().getFullYear();
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
 
   // MOBILE NAVIGATION
   const navToggle = $(".nav-toggle");
@@ -20,37 +18,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (navToggle && siteNav) {
     navToggle.addEventListener("click", () => {
-      const isOpen = siteNav.classList.toggle("is-open");
+      const isOpen = siteNav.classList.toggle("open");
       navToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
     siteNav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        siteNav.classList.remove("is-open");
+        siteNav.classList.remove("open");
         navToggle.setAttribute("aria-expanded", "false");
       });
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        siteNav.classList.remove("is-open");
+        siteNav.classList.remove("open");
         navToggle.setAttribute("aria-expanded", "false");
       }
     });
   }
 
-  // CONTACT DETAILS
-  const email = window.CONTACT_EMAIL || "";
-
-  if ($("#contact-email") && email) {
-    $("#contact-email").textContent = email;
-    $("#contact-email").href = `mailto:${email}`;
-  }
-
-  if ($("#contact-placeholder") && email) {
-    $("#contact-placeholder").hidden = true;
-  }
-
+  // SOCIAL LINKS
   const socialContainer = $("#social-links");
 
   if (socialContainer && Array.isArray(window.SOCIAL_LINKS)) {
@@ -64,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       link.textContent = social.label;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
+
       socialContainer.appendChild(link);
     });
   }
@@ -74,7 +62,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const workStatus = $("#work-status");
   const dialog = $("#project-dialog");
 
-  let projects = [];
+  // SUPABASE INITIALIZATION
+  let client = null;
+
+  try {
+    if (
+      window.supabase &&
+      window.SUPABASE_URL &&
+      window.SUPABASE_ANON_KEY
+    ) {
+      client = window.supabase.createClient(
+        window.SUPABASE_URL,
+        window.SUPABASE_ANON_KEY
+      );
+    }
+  } catch (error) {
+    console.error("Supabase initialization error:", error);
+  }
 
   // CREATE SIGNED MEDIA URL
   async function getMediaUrl(path) {
@@ -84,19 +88,99 @@ document.addEventListener("DOMContentLoaded", () => {
       return path;
     }
 
-    const { data, error } = await client.storage
-      .from(BUCKET)
-      .createSignedUrl(path, 3600);
+    if (!client) return "";
 
-    if (error) {
+    try {
+      const { data, error } = await client.storage
+        .from(BUCKET)
+        .createSignedUrl(path, 3600);
+
+      if (error) {
+        console.error("Media URL error:", error);
+        return "";
+      }
+
+      return data?.signedUrl || "";
+    } catch (error) {
       console.error("Media URL error:", error);
       return "";
     }
-
-    return data.signedUrl;
   }
 
-  // CREATE PROJECT CARD
+  // OPEN PROJECT DETAILS
+  async function openProject(project) {
+    if (!dialog) return;
+
+    const title = $("#dlg-title");
+    const meta = $("#dlg-meta");
+    const description = $("#dlg-desc");
+    const mediaContainer = $("#dlg-media");
+
+    if (!title || !meta || !description || !mediaContainer) return;
+
+    title.textContent = project.title || "";
+    meta.textContent = project.category || "";
+    description.textContent = project.description || "";
+
+    mediaContainer.innerHTML = "";
+
+    const mediaPaths = [
+      project.cover_url,
+      ...(Array.isArray(project.media_urls) ? project.media_urls : [])
+    ].filter(Boolean);
+
+    const uniquePaths = [...new Set(mediaPaths)];
+
+    for (const path of uniquePaths) {
+      const url = await getMediaUrl(path);
+
+      if (!url) continue;
+
+      const isVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(path);
+
+      if (isVideo) {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        video.playsInline = true;
+        mediaContainer.appendChild(video);
+      } else {
+        const image = document.createElement("img");
+        image.src = url;
+        image.alt = project.title || "Project media";
+        mediaContainer.appendChild(image);
+      }
+    }
+
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+  }
+
+  // CLOSE PROJECT DIALOG
+  if (dialog) {
+    const closeButton = dialog.querySelector(".dlg-close");
+
+    if (closeButton) {
+      closeButton.addEventListener("click", () => dialog.close());
+    }
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) {
+        dialog.close();
+      }
+    });
+
+    dialog.addEventListener("close", () => {
+      dialog.querySelectorAll("video").forEach((video) => {
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+      });
+    });
+  }
+
+  // CREATE A SUPABASE PROJECT CARD
   async function createProjectCard(project) {
     const item = document.createElement("li");
     const button = document.createElement("button");
@@ -127,7 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
     meta.className = "card-meta";
     meta.textContent = project.category || "Creative work";
 
-    body.append(title, meta);
+    const description = document.createElement("p");
+    description.textContent = project.description || "";
+
+    body.append(title, meta, description);
     button.append(media, body);
     item.appendChild(button);
 
@@ -136,158 +223,78 @@ document.addEventListener("DOMContentLoaded", () => {
     return item;
   }
 
-  // DISPLAY PROJECTS
-  async function displayProjects(list) {
-    if (!projectsGrid) return;
-
-    projectsGrid.innerHTML = "";
-
-    for (const project of list) {
-      const card = await createProjectCard(project);
-      projectsGrid.appendChild(card);
-    }
-
-    if (workStatus) {
-      workStatus.textContent = list.length
-        ? `${list.length} project${list.length === 1 ? "" : "s"}`
-        : "No projects in this category yet.";
-    }
-  }
-
-  // CREATE CATEGORY FILTERS
-  function createFilters() {
-    if (!filtersContainer) return;
-
-    filtersContainer.innerHTML = "";
-
-    const categories = [
-      "All",
-      ...new Set(
-        projects
-          .map((project) => project.category)
-          .filter(Boolean)
-      )
-    ];
-
-    categories.forEach((category, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = category;
-      button.className = index === 0 ? "active" : "";
-
-      button.addEventListener("click", () => {
-        filtersContainer.querySelectorAll("button").forEach((item) => {
-          item.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        const filtered = category === "All"
-          ? projects
-          : projects.filter(
-              (project) => project.category === category
-            );
-
-        displayProjects(filtered);
-      });
-
-      filtersContainer.appendChild(button);
-    });
-  }
-
-  // OPEN PROJECT DETAILS
-  async function openProject(project) {
-    if (!dialog) return;
-
-    $("#dlg-title").textContent = project.title || "";
-    $("#dlg-meta").textContent = project.category || "";
-    $("#dlg-desc").textContent = project.description || "";
-
-    const mediaContainer = $("#dlg-media");
-    mediaContainer.innerHTML = "";
-
-    const mediaPaths = [
-      project.cover_url,
-      ...(Array.isArray(project.media_urls) ? project.media_urls : [])
-    ].filter(Boolean);
-
-    const uniquePaths = [...new Set(mediaPaths)];
-
-    for (const path of uniquePaths) {
-      const url = await getMediaUrl(path);
-      if (!url) continue;
-
-      const isVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(path);
-
-      if (isVideo) {
-        const video = document.createElement("video");
-        video.src = url;
-        video.controls = true;
-        video.playsInline = true;
-        mediaContainer.appendChild(video);
-      } else {
-        const image = document.createElement("img");
-        image.src = url;
-        image.alt = project.title || "Project media";
-        mediaContainer.appendChild(image);
-      }
-    }
-
-    dialog.showModal();
-  }
-
-  // CLOSE PROJECT DIALOG
-  if (dialog) {
-    const closeButton = dialog.querySelector(".dlg-close");
-
-    if (closeButton) {
-      closeButton.addEventListener("click", () => dialog.close());
-    }
-
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-
-    dialog.addEventListener("close", () => {
-      dialog.querySelectorAll("video").forEach((video) => {
-        video.pause();
-        video.removeAttribute("src");
-        video.load();
-      });
-    });
-  }
-
   // LOAD PUBLISHED PROJECTS FROM SUPABASE
   async function loadProjects() {
     if (!projectsGrid) return;
 
-    if (workStatus) workStatus.textContent = "Loading projects...";
+    // Keep all manually added HTML gallery cards.
+    const staticCards = Array.from(projectsGrid.children);
 
-    const { data, error } = await client
-      .from("projects")
-      .select(
-        "id,title,description,category,cover_url,media_urls,sort_order,created_at"
-      )
-      .eq("published", true)
-      .order("sort_order", { ascending: true })
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Project loading error:", error);
-
+    if (!client) {
       if (workStatus) {
         workStatus.textContent =
-          "Projects could not be loaded. Please try again later.";
+          "Showing featured work. More projects will be available soon.";
       }
-
       return;
     }
 
-    projects = data || [];
+    if (workStatus) {
+      workStatus.textContent = "Loading additional projects...";
+    }
 
-    createFilters();
-    await displayProjects(projects);
+    try {
+      const { data, error } = await client
+        .from("projects")
+        .select(
+          "id,title,description,category,cover_url,media_urls,sort_order,created_at"
+        )
+        .eq("published", true)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw error;
+      }
+
+      const databaseProjects = data || [];
+
+      // Remove only cards previously added by this script.
+      projectsGrid
+        .querySelectorAll("[data-supabase-project]")
+        .forEach((card) => card.remove());
+
+      // Do not clear or replace the static HTML gallery.
+      for (const project of databaseProjects) {
+        const card = await createProjectCard(project);
+        card.dataset.supabaseProject = "true";
+        projectsGrid.appendChild(card);
+      }
+
+      // Hide filters until a combined static and dynamic filter
+      // system is implemented.
+      if (filtersContainer) {
+        filtersContainer.hidden = true;
+      }
+
+      if (workStatus) {
+        const total = staticCards.length + databaseProjects.length;
+
+        workStatus.textContent =
+          `${total} featured project${total === 1 ? "" : "s"}`;
+      }
+
+    } catch (error) {
+      console.error("Project loading error:", error);
+
+      // Static gallery cards remain visible even when Supabase fails.
+      if (workStatus) {
+        workStatus.textContent =
+          "Showing featured work. Additional projects are temporarily unavailable.";
+      }
+    }
   }
 
+  // START
   loadProjects();
+
 });
