@@ -346,9 +346,9 @@ button {
   font-size: 0.9rem;
 }
 
+/* Hide the temporary project-loading/error message */
 #work-status {
-  color: var(--muted);
-  margin-top: 20px;
+  display: none;
 }
 
 /* AMPATH */
@@ -372,11 +372,24 @@ button {
   margin-bottom: 12px;
 }
 
-#contact a {
+/* Keep contact button text readable */
+#contact a.btn,
+#contact a.button {
+  color: var(--deep-black);
+  background: var(--amber);
+}
+
+#contact a.btn:hover,
+#contact a.button:hover {
+  color: var(--amber);
+  background: transparent;
+}
+
+#contact a:not(.btn):not(.button) {
   color: var(--amber);
 }
 
-#contact a:hover {
+#contact a:not(.btn):not(.button):hover {
   text-decoration: underline;
 }
 
@@ -502,7 +515,8 @@ video {
     gap: 20px;
   }
 
-  #site-nav.open {
+  /* Matches the is-open class used by public.js */
+  #site-nav.is-open {
     display: flex;
   }
 
