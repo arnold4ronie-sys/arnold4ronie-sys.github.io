@@ -712,3 +712,27 @@ video {
     color: var(--deep-black);
   }
 }
+
+/* Auto-hiding mobile navigation */
+@media (max-width: 650px) {
+  #site-nav {
+    max-height: 150px;
+    overflow: hidden;
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      max-height 0.3s ease,
+      opacity 0.25s ease,
+      transform 0.3s ease,
+      padding 0.3s ease;
+  }
+
+  #site-nav.nav-auto-hidden {
+    max-height: 0 !important;
+    opacity: 0;
+    transform: translateY(-20px);
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    pointer-events: none;
+  }
+}
