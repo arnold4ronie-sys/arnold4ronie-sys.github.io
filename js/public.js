@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // FOOTER YEAR
   const year = $("#year");
+
   if (year) {
     year.textContent = new Date().getFullYear();
   }
@@ -36,6 +37,39 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // AUTO-HIDING MOBILE NAVIGATION
+  let scrollStopTimer;
+
+  function handleNavigationScroll() {
+    if (!siteNav || window.innerWidth > 650) return;
+
+    // Always show navigation at the top of the page.
+    if (window.scrollY <= 10) {
+      siteNav.classList.remove("nav-auto-hidden");
+      return;
+    }
+
+    // Hide navigation while scrolling.
+    siteNav.classList.add("nav-auto-hidden");
+
+    // Show navigation again when scrolling stops.
+    clearTimeout(scrollStopTimer);
+
+    scrollStopTimer = setTimeout(() => {
+      siteNav.classList.remove("nav-auto-hidden");
+    }, 350);
+  }
+
+  window.addEventListener("scroll", handleNavigationScroll, {
+    passive: true
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 650 && siteNav) {
+      siteNav.classList.remove("nav-auto-hidden");
+    }
+  });
 
   // SOCIAL LINKS
   const socialContainer = $("#social-links");
@@ -227,7 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadProjects() {
     if (!projectsGrid) return;
 
-    // Keep all manually added HTML gallery cards.
     const staticCards = Array.from(projectsGrid.children);
 
     if (!client) {
@@ -258,20 +291,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const databaseProjects = data || [];
 
-      // Remove only cards previously added by this script.
       projectsGrid
         .querySelectorAll("[data-supabase-project]")
         .forEach((card) => card.remove());
 
-      // Do not clear or replace the static HTML gallery.
       for (const project of databaseProjects) {
         const card = await createProjectCard(project);
         card.dataset.supabaseProject = "true";
         projectsGrid.appendChild(card);
       }
 
-      // Hide filters until a combined static and dynamic filter
-      // system is implemented.
       if (filtersContainer) {
         filtersContainer.hidden = true;
       }
@@ -286,7 +315,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Project loading error:", error);
 
-      // Static gallery cards remain visible even when Supabase fails.
       if (workStatus) {
         workStatus.textContent =
           "Showing featured work. Additional projects are temporarily unavailable.";
@@ -298,27 +326,3 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProjects();
 
 });
-
-/* Auto-hiding mobile navigation */
-@media (max-width: 650px) {
-  #site-nav {
-    max-height: 150px;
-    overflow: hidden;
-    opacity: 1;
-    transform: translateY(0);
-    transition:
-      max-height 0.3s ease,
-      opacity 0.25s ease,
-      transform 0.3s ease,
-      padding 0.3s ease;
-  }
-
-  #site-nav.nav-auto-hidden {
-    max-height: 0 !important;
-    opacity: 0;
-    transform: translateY(-20px);
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    pointer-events: none;
-  }
-}
