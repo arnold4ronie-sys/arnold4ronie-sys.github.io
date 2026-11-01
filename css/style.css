@@ -620,3 +620,49 @@ video {
     font-size: 12px;
   }
 }
+
+/* FINAL NAVIGATION OVERRIDE: desktop and mobile */
+@media (max-width: 850px) {
+  .nav-toggle {
+    display: none !important;
+  }
+
+  .site-header .wrap {
+    min-height: 76px;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  #site-nav,
+  #site-nav.is-open {
+    display: flex !important;
+    position: static !important;
+    width: 100%;
+    height: auto !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 10px 0 !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  #site-nav a {
+    display: inline-block;
+    padding: 7px 11px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--ivory);
+    font-size: 13px;
+  }
+
+  #site-nav a[aria-current="page"] {
+    background: var(--amber);
+    color: var(--deep-black);
+  }
+}
