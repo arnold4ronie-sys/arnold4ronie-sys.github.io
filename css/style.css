@@ -54,6 +54,29 @@ button {
   margin-inline: auto;
 }
 
+/* ACCESSIBILITY SKIP LINK */
+
+.skip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  padding: 10px 16px;
+  background: var(--amber);
+  color: var(--deep-black);
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 3px;
+  transform: translateY(-160%);
+  transition: transform 0.2s ease;
+}
+
+.skip:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--ivory);
+  outline-offset: 3px;
+}
+
 .section {
   padding: 100px 0;
   background: var(--black);
@@ -538,12 +561,6 @@ video {
     padding: 7px 10px;
     font-size: 12px;
   }
-
-  /*
-    One navigation animation rule.
-    The JavaScript adds/removes nav-auto-hidden.
-    No max-height animation or competing overrides.
-  */
 
   #site-nav {
     opacity: 1;
