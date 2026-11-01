@@ -71,6 +71,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // AUTO-HIDING MOBILE NAVIGATION
+  let scrollStopTimer;
+
+  function handleNavigationScroll() {
+    if (!siteNav || window.innerWidth > 650) return;
+
+    if (window.scrollY <= 10) {
+      siteNav.classList.remove("nav-auto-hidden");
+      return;
+    }
+
+    siteNav.classList.add("nav-auto-hidden");
+
+    clearTimeout(scrollStopTimer);
+
+    scrollStopTimer = setTimeout(() => {
+      siteNav.classList.remove("nav-auto-hidden");
+    }, 700);
+  }
+
+  window.addEventListener("scroll", handleNavigationScroll, {
+    passive: true
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 650) {
+      siteNav.classList.remove("nav-auto-hidden");
+    }
+  });
+  
   // SOCIAL LINKS
   const socialContainer = $("#social-links");
 
