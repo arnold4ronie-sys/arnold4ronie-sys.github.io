@@ -736,3 +736,23 @@ video {
     pointer-events: none;
   }
 }
+
+/* SMOOTH AUTO-HIDING NAVIGATION */
+@media (max-width: 650px) {
+  #site-nav {
+    max-height: none !important;
+    overflow: visible !important;
+    transition: opacity 0.35s ease, transform 0.35s ease !important;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #site-nav.nav-auto-hidden {
+    max-height: none !important;
+    opacity: 0;
+    transform: translateY(-110%);
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    pointer-events: none;
+  }
+}
