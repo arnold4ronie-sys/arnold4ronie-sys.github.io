@@ -38,56 +38,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // STABLE AUTO-HIDING MOBILE NAVIGATION
-  let scrollStopTimer = null;
+  // MOBILE NAVIGATION AUTO-HIDE
+  if (siteNav) {
+    let scrollStopTimer = null;
+    let isMobileScrolling = false;
 
-  function showNavigation() {
-    if (siteNav) {
+    function showNavigation() {
       siteNav.classList.remove("nav-auto-hidden");
+      isMobileScrolling = false;
     }
-  }
 
-  function hideNavigation() {
-    if (siteNav) {
+    function hideNavigation() {
       siteNav.classList.add("nav-auto-hidden");
+      isMobileScrolling = true;
     }
-  }
 
-  function handleNavigationScroll() {
-    if (!siteNav || window.innerWidth > 650) return;
+    function handleNavigationScroll() {
+      if (window.innerWidth > 650) {
+        clearTimeout(scrollStopTimer);
+        showNavigation();
+        return;
+      }
 
-    // Keep navigation visible at the top.
-    if (window.scrollY <= 10) {
+      if (window.scrollY <= 10) {
+        clearTimeout(scrollStopTimer);
+        showNavigation();
+        return;
+      }
+
+      // Hide immediately when scrolling begins.
+      hideNavigation();
+
+      // Fallback for browsers without scrollend support.
       clearTimeout(scrollStopTimer);
-      showNavigation();
-      return;
+
+      scrollStopTimer = setTimeout(() => {
+        showNavigation();
+      }, 1600);
     }
 
-    // Hide navigation while the page is moving.
-    hideNavigation();
+    window.addEventListener("scroll", handleNavigationScroll, {
+      passive: true
+    });
 
-    // Start one timer, resetting it with every scroll event.
-    clearTimeout(scrollStopTimer);
+    // Reveal only when the browser confirms scrolling has ended.
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", () => {
+        if (window.innerWidth <= 650 && window.scrollY > 10) {
+          clearTimeout(scrollStopTimer);
+          showNavigation();
+        }
+      });
+    }
 
-    // Reveal navigation only after scrolling has stopped.
-    scrollStopTimer = setTimeout(() => {
-      showNavigation();
-    }, 900);
+    window.addEventListener("resize", () => {
+      clearTimeout(scrollStopTimer);
+
+      if (window.innerWidth > 650 || window.scrollY <= 10) {
+        showNavigation();
+      } else if (isMobileScrolling) {
+        hideNavigation();
+      }
+    });
   }
-
-  window.addEventListener("scroll", handleNavigationScroll, {
-    passive: true
-  });
-
-  window.addEventListener("resize", () => {
-    clearTimeout(scrollStopTimer);
-
-    if (window.innerWidth > 650) {
-      showNavigation();
-    } else if (window.scrollY <= 10) {
-      showNavigation();
-    }
-  });
 
   // SOCIAL LINKS
   const socialContainer = $("#social-links");
