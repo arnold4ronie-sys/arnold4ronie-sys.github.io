@@ -619,3 +619,32 @@ video {
     height: 230px;
   }
 }
+
+/* FORCE HIDE SKIP LINK UNTIL KEYBOARD FOCUS */
+
+a.skip {
+  position: fixed !important;
+  top: 0 !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  transform: none !important;
+}
+
+a.skip:focus {
+  left: 12px !important;
+  top: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 10px 16px !important;
+  overflow: visible !important;
+  clip: auto !important;
+  z-index: 9999 !important;
+  background: var(--amber) !important;
+  color: var(--deep-black) !important;
+}
