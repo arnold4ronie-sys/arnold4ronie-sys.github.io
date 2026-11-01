@@ -38,27 +38,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // AUTO-HIDING MOBILE NAVIGATION
-  let scrollStopTimer;
+  // STABLE AUTO-HIDING MOBILE NAVIGATION
+  let scrollStopTimer = null;
+
+  function showNavigation() {
+    if (siteNav) {
+      siteNav.classList.remove("nav-auto-hidden");
+    }
+  }
+
+  function hideNavigation() {
+    if (siteNav) {
+      siteNav.classList.add("nav-auto-hidden");
+    }
+  }
 
   function handleNavigationScroll() {
     if (!siteNav || window.innerWidth > 650) return;
 
-    // Always show navigation at the top of the page.
+    // Keep navigation visible at the top.
     if (window.scrollY <= 10) {
-      siteNav.classList.remove("nav-auto-hidden");
+      clearTimeout(scrollStopTimer);
+      showNavigation();
       return;
     }
 
-    // Hide navigation while scrolling.
-    siteNav.classList.add("nav-auto-hidden");
+    // Hide navigation while the page is moving.
+    hideNavigation();
 
-    // Show navigation again when scrolling stops.
+    // Start one timer, resetting it with every scroll event.
     clearTimeout(scrollStopTimer);
 
+    // Reveal navigation only after scrolling has stopped.
     scrollStopTimer = setTimeout(() => {
-      siteNav.classList.remove("nav-auto-hidden");
-    }, 350);
+      showNavigation();
+    }, 900);
   }
 
   window.addEventListener("scroll", handleNavigationScroll, {
@@ -66,41 +80,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 650 && siteNav) {
-      siteNav.classList.remove("nav-auto-hidden");
-    }
-  });
-
-  // AUTO-HIDING MOBILE NAVIGATION
-  let scrollStopTimer;
-
-  function handleNavigationScroll() {
-    if (!siteNav || window.innerWidth > 650) return;
-
-    if (window.scrollY <= 10) {
-      siteNav.classList.remove("nav-auto-hidden");
-      return;
-    }
-
-    siteNav.classList.add("nav-auto-hidden");
-
     clearTimeout(scrollStopTimer);
 
-    scrollStopTimer = setTimeout(() => {
-      siteNav.classList.remove("nav-auto-hidden");
-    }, 700);
-  }
-
-  window.addEventListener("scroll", handleNavigationScroll, {
-    passive: true
-  });
-
-  window.addEventListener("resize", () => {
     if (window.innerWidth > 650) {
-      siteNav.classList.remove("nav-auto-hidden");
+      showNavigation();
+    } else if (window.scrollY <= 10) {
+      showNavigation();
     }
   });
-  
+
   // SOCIAL LINKS
   const socialContainer = $("#social-links");
 
