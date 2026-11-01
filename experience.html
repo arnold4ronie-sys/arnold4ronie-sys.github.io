@@ -7,9 +7,106 @@
 
   <title>AMPATH Experience | Ronie Arnold</title>
 
-  <meta name="description" content="Ronie Arnold's field attachment experience in communication, multimedia storytelling and public health communication at AMPATH.">
+  <meta name="description" content="Explore Ronie Arnold's field attachment experience at AMPATH Public Health and learn about the organisation's work in healthcare, education, research and community development.">
 
   <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .ampath-hero {
+      min-height: min(820px, 88vh);
+    }
+
+    .ampath-hero .hero-img {
+      object-position: center 45%;
+      opacity: 0.72;
+    }
+
+    .ampath-hero .hero-shade {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(10, 10, 10, 0.94) 0%,
+          rgba(10, 10, 10, 0.78) 52%,
+          rgba(10, 10, 10, 0.30) 100%
+        ),
+        linear-gradient(
+          0deg,
+          rgba(10, 10, 10, 0.78),
+          transparent 70%
+        );
+    }
+
+    .ampath-logo {
+      display: block;
+      width: auto;
+      max-width: 190px;
+      max-height: 85px;
+      object-fit: contain;
+      padding: 10px 14px;
+      margin-bottom: 28px;
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 3px;
+    }
+
+    .ampath-hero h1 {
+      max-width: 900px;
+      font-size: clamp(46px, 7vw, 88px);
+    }
+
+    .ampath-hero .lead {
+      max-width: 690px;
+    }
+
+    .ampath-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 55px;
+      align-items: start;
+    }
+
+    .ampath-overview p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .ampath-facts {
+      padding: 30px;
+      background: var(--charcoal);
+      border: 1px solid var(--line);
+    }
+
+    .ampath-facts p {
+      padding: 12px 0;
+      margin: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .ampath-facts p:last-child {
+      border-bottom: none;
+    }
+
+    .ampath-facts strong {
+      color: var(--amber);
+    }
+
+    @media (max-width: 700px) {
+      .ampath-hero {
+        min-height: 760px;
+        padding-top: 80px;
+        padding-bottom: 80px;
+      }
+
+      .ampath-overview {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .ampath-logo {
+        max-width: 155px;
+        max-height: 72px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -28,62 +125,166 @@
         <span></span>
       </button>
 
-<nav id="site-nav" aria-label="Main">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="services.html">Services</a>
-  <a href="portfolio.html">Work</a>
-  <a href="experience.html" aria-current="page">AMPATH</a>
-  <a href="index.html#contact">Contact</a>
-</nav>
+      <nav id="site-nav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="portfolio.html">Work</a>
+        <a href="experience.html" aria-current="page">AMPATH</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
     </div>
   </header>
 
   <main>
 
-    <section class="section">
-      <div class="wrap">
+    <!-- AMPATH HERO -->
+    <section class="hero ampath-hero">
 
-        <p class="eyebrow">PROFESSIONAL EXPERIENCE</p>
+      <img
+        class="hero-img"
+        src="assets/chandaria.building.jpeg"
+        alt="Chandaria building at AMPATH"
+      >
 
-        <h1>Learning communication through real-world experience.</h1>
+      <div class="hero-shade"></div>
+
+      <div class="hero-copy">
+
+        <img
+          class="ampath-logo"
+          src="assets/ampath.logo.jpeg"
+          alt="AMPATH logo"
+        >
+
+        <p class="hero-name">MY PROFESSIONAL EXPERIENCE</p>
+
+        <h1>
+          Healthcare.
+          <span>Education.</span>
+          Research.
+        </h1>
 
         <p class="lead">
-          My field attachment at AMPATH Public Health gave me practical
-          exposure to communication in a public health environment.
-          I worked across photography, videography, interviews,
-          editorial tasks, graphic design and digital communication.
+          The Academic Model Providing Access to Healthcare (AMPATH)
+          is an academic health partnership that brings together
+          healthcare delivery, medical education, research and
+          community development. Established in 1989 through a
+          partnership involving Moi University, Moi Teaching and
+          Referral Hospital, and a consortium of international
+          universities led by Indiana University School of Medicine,
+          AMPATH has grown into a broad health system serving
+          communities through hospitals, health centres and
+          community programmes.
         </p>
 
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="wrap">
-
-        <div class="card">
-          <p class="eyebrow">FIELD ATTACHMENT</p>
-
-          <h2>Academic Model Providing Access to Healthcare (AMPATH)</h2>
-
-          <p><strong>Department:</strong> Public Health</p>
-
-          <p><strong>Unit:</strong> Communication Unit</p>
-
-          <p><strong>Period:</strong> 4 May 2026 – 4 August 2026</p>
-
-          <p><strong>Supervisor:</strong> Ms. Allylah Msenya</p>
-
-          <p>
-            The attachment involved documenting public health activities,
-            developing communication materials and supporting the
-            communication of programme activities and experiences.
-          </p>
+        <div class="actions">
+          <a href="#overview" class="btn">Discover AMPATH</a>
+          <a href="#attachment" class="btn btn-ghost">My attachment</a>
         </div>
 
       </div>
     </section>
 
+    <!-- ABOUT AMPATH -->
+    <section class="section" id="overview">
+      <div class="wrap">
+
+        <p class="eyebrow">ABOUT THE ORGANISATION</p>
+
+        <h2>More than healthcare delivery.</h2>
+
+        <div class="ampath-overview">
+
+          <div>
+            <p>
+              AMPATH was established to strengthen medical education
+              and improve access to healthcare in western Kenya.
+              Its work has developed beyond its early focus on
+              HIV prevention, treatment and care into a wider
+              approach to healthcare and population health.
+            </p>
+
+            <p>
+              Today, its areas of work include chronic disease
+              management, cancer care, maternal and child health,
+              mental health, infectious diseases, nutrition,
+              surgery, palliative care, rehabilitation and
+              community health.
+            </p>
+
+            <p>
+              Its approach connects prevention, diagnosis,
+              treatment, rehabilitation, research, education
+              and community empowerment. This means working
+              with healthcare professionals, academic partners,
+              government institutions, development partners
+              and local communities to respond to changing
+              health needs.
+            </p>
+          </div>
+
+          <div>
+            <p>
+              An important part of this work is communication.
+              Sharing information about health programmes,
+              documenting activities, educating communities
+              and engaging stakeholders helps make the work
+              visible and understandable.
+            </p>
+
+            <p>
+              Within this wider responsibility, the Public Health
+              Department works to improve population health
+              through disease prevention, health education,
+              community engagement, outreach and behaviour
+              change communication.
+            </p>
+
+            <p>
+              The Communication Unit supports these efforts
+              through photography, videography, documentaries,
+              digital content, social media, information and
+              education materials, publications and advocacy.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ATTACHMENT DETAILS -->
+    <section class="section tint" id="attachment">
+      <div class="wrap">
+
+        <p class="eyebrow">FIELD ATTACHMENT</p>
+
+        <h2>My time at AMPATH Public Health.</h2>
+
+        <div class="ampath-facts">
+          <p><strong>Organisation:</strong> Academic Model Providing Access to Healthcare (AMPATH)</p>
+          <p><strong>Department:</strong> Public Health</p>
+          <p><strong>Unit:</strong> Communication Unit</p>
+          <p><strong>Period:</strong> 4 May 2026 – 4 August 2026</p>
+          <p><strong>Supervisor:</strong> Ms. Allylah Msenya</p>
+        </div>
+
+        <p style="color: var(--muted); margin-top: 28px; max-width: 850px;">
+          My field attachment gave me practical exposure to
+          communication within a public health environment.
+          I worked across photography, videography, interviews,
+          editorial tasks, graphic design and digital communication.
+          The experience helped me understand how media and
+          communication contribute to documenting programmes,
+          sharing information and connecting people with
+          public health work.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- RESPONSIBILITIES -->
     <section class="section">
       <div class="wrap">
 
@@ -94,57 +295,61 @@
           <article class="card">
             <h3>Photography and videography</h3>
             <p>
-              Documented public health activities, events, people and
-              community experiences through photography and video.
-              This involved camera operation, composition, lighting
-              and visual storytelling.
+              Documented public health activities, events, people
+              and community experiences through photography and
+              video. This involved camera operation, composition,
+              lighting and visual storytelling.
             </p>
           </article>
 
           <article class="card">
             <h3>Interviews and field documentation</h3>
             <p>
-              Participated in field assignments and interviews with
-              healthcare professionals, community members and
-              beneficiaries. Recorded firsthand perspectives and
-              documented activities through audio, photography and video.
+              Participated in field assignments and interviews
+              with healthcare professionals, community members
+              and beneficiaries. Recorded firsthand perspectives
+              and documented activities through audio,
+              photography and video.
             </p>
           </article>
 
           <article class="card">
             <h3>Writing and transcription</h3>
             <p>
-              Transcribed recorded interviews and used interview material
-              to support human-centred storytelling. Contributed to
-              documentation and written communication activities.
+              Transcribed recorded interviews and used interview
+              material to support human-centred storytelling.
+              Contributed to documentation and written
+              communication activities.
             </p>
           </article>
 
           <article class="card">
             <h3>Video editing</h3>
             <p>
-              Worked on video editing by selecting footage, arranging
-              sequences, improving audio and adding captions to prepare
-              communication materials for reports and digital platforms.
+              Worked on video editing by selecting footage,
+              arranging sequences, improving audio and adding
+              captions to prepare communication materials
+              for reports and digital platforms.
             </p>
           </article>
 
           <article class="card">
             <h3>Graphic design</h3>
             <p>
-              Developed communication materials using Canva, including
-              posters and brochures. Contributed to awareness and
-              programme communication designs.
+              Developed communication materials using Canva,
+              including posters and brochures. Contributed
+              to awareness and programme communication designs.
             </p>
           </article>
 
           <article class="card">
             <h3>Editorial and digital communication</h3>
             <p>
-              Supported proofreading, grammar correction, document
-              review and content organisation. Also gained exposure to
-              website development concepts, social media content
-              planning, audience engagement and SEO.
+              Supported proofreading, grammar correction,
+              document review and content organisation.
+              Also gained exposure to website development
+              concepts, social media content planning,
+              audience engagement and SEO.
             </p>
           </article>
 
@@ -153,6 +358,7 @@
       </div>
     </section>
 
+    <!-- SELECTED ASSIGNMENTS -->
     <section class="section">
       <div class="wrap">
 
@@ -163,33 +369,37 @@
           <article class="card">
             <h3>Field documentation</h3>
             <p>
-              Participated in assignments in Kapsoya, Elgeyo Marakwet
-              and Kabenes, documenting activities and gathering
-              photographs, videos and interview material.
+              Participated in assignments in Kapsoya,
+              Elgeyo Marakwet and Kabenes, documenting
+              activities and gathering photographs,
+              videos and interview material.
             </p>
           </article>
 
           <article class="card">
             <h3>IMARA Breast Cancer awareness</h3>
             <p>
-              Contributed to the development of an IMARA Breast Cancer
-              awareness poster as part of public health communication.
+              Contributed to the development of an
+              IMARA Breast Cancer awareness poster
+              as part of public health communication.
             </p>
           </article>
 
           <article class="card">
             <h3>Programme communication</h3>
             <p>
-              Worked on a poster illustrating AMPATH's transition
-              from community outreach to programme ownership.
+              Worked on a poster illustrating AMPATH's
+              transition from community outreach
+              to programme ownership.
             </p>
           </article>
 
           <article class="card">
             <h3>Editorial contributions</h3>
             <p>
-              Reviewed communication documents, including an IMARA BC
-              programme document, and contributed to quarterly
+              Reviewed communication documents,
+              including an IMARA BC programme document,
+              and contributed to quarterly
               Population Health reports.
             </p>
           </article>
@@ -197,9 +407,10 @@
           <article class="card">
             <h3>Event documentation</h3>
             <p>
-              Participated in documentation activities for the
-              KNOSA Forum at Eka Hotel and photography activities
-              at the Chronic Disease Management (CDM) clinic.
+              Participated in documentation activities
+              for the KNOSA Forum at Eka Hotel and
+              photography activities at the Chronic
+              Disease Management (CDM) clinic.
             </p>
           </article>
 
@@ -208,6 +419,7 @@
       </div>
     </section>
 
+    <!-- SKILLS -->
     <section class="section">
       <div class="wrap">
 
@@ -252,6 +464,7 @@
       </div>
     </section>
 
+    <!-- CLOSING -->
     <section class="section">
       <div class="wrap narrow">
 
@@ -259,13 +472,14 @@
 
         <p>
           My time at AMPATH strengthened my understanding of how
-          communication supports public health education, community
-          engagement, awareness and programme documentation.
-          It also gave me practical experience working with stories,
-          people and information in a professional environment.
+          communication supports public health education,
+          community engagement, awareness and programme
+          documentation. It also gave me practical experience
+          working with stories, people and information in a
+          professional environment.
         </p>
 
-        <a href="portfolio.html" class="button">
+        <a href="portfolio.html" class="btn" style="margin-top: 25px;">
           Explore selected work
         </a>
 
